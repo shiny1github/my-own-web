@@ -39,7 +39,8 @@ User.findOne({email: email })
 
 router.post('/register',async (req,res)=>{
 
-    const{name,email,phone,work,password,cpassword}=req.body; //ES2015
+    const{name,email,phone,work,password,cpassword}=req.body; 
+    //ES2015
 
 if(!name||!email||!phone||!work||!password||!cpassword){
     return res.status(422).json({error:"fillup all the data"});
@@ -51,11 +52,18 @@ try{
     const userExist = await User.findOne({email: email })
     if (userExist){
       return res.status(422).json({error:"Email already registered"});
+    }else if(password !=cpassword){
+        return res.status(422).json({error:"Password not match"});
+
+    }else {
+
+        const user = new User({name,email,phone,work,password,cpassword})
+        //hashing
+         await user.save();
+         res.status(201).json({message: "Successfuly Registered"});
     }
     
-    const user = new User({name,email,phone,work,password,cpassword})
-    await user.save();
-    res.status(201).json({message: "successfuly registered"});
+    
 
     
 
@@ -63,11 +71,39 @@ try{
     console.log(err);
 
 }
+});
 
 
+//login data
+router.post('/signin',async (req,res)=>{
+   
+    try{
+        const{email,password}=req.body;
+        if(!email||!password)
+        {
+            return res.status(400).json({error:"please fill the data"});
+    
+        }  
+        const userLogin  = await User.findOne({email: email });
+        console.log(userLogin);
+
+        if(!userLogin){
+            res.status(400).json({error:"Signin Error You are not Registered"});
+
+        }else{
+            res.json({message:"Signin Successfuly"});
+        }
+        
+
+    }catch(err){
+        console.log(err);
+
+    }
 
     
-});
+})
+    
+
 
 
 
