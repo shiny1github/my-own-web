@@ -92,9 +92,15 @@ router.post('/signin',async (req,res)=>{
 
         if(userLogin){
             const isMatch=await bcrypt.compare(password,userLogin.password);
-            
-            token = await userLogin.generateAuthToken();   //generating token
+            //generating token
+            token = await userLogin.generateAuthToken();   
             console.log(token);
+
+            //Store JWT Token in Cookie 
+            res.cookie("jwtoken",token,{
+                expires:new Date(Date.now()+25892000000),
+                httpOnly:true
+            });
 
         if(!isMatch){
             res.status(400).json({error:"Invalid Credentials pass"});
