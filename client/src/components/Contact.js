@@ -61,7 +61,26 @@ const Contact = () => {
             </div>
             <form id="contact_form">
               <div className="contact_form_name d-flex justify-content-between  align-items-between">
+                <input type="text" id="contact_form_name" className="contact_form_name input_field"
+                 placeholder="Your Name" required="true" />
 
+                <input type="email" id="contact_form_email" className="contact_form_email input_field"
+                 placeholder="Your email" required="true" />   
+
+                <input type="number" id="contact_form_phone" className="contact_form_phone input_field"
+                 placeholder="Your Phone" required="true" />
+
+              </div>
+
+
+              <div className="contact_form_text mt-4" >
+                <textarea className="text_field contact_form message"
+                placeholder="Message" cols="30" row="10"></textarea>
+
+              </div>
+              
+              <div className="contact_form_button">
+                <button typr="submit" className="button contact_submit_button">Send Message</button>
               </div>
 
             </form>
